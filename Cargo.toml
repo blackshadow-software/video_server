@@ -20,3 +20,4 @@ tower-http = { version = "0.6.2", features = ["cors"] }
 axum = "0.8"
 tracing-subscriber = "0.3"
 mime_guess = "2.0"
+grpc_video_server = { git = "https://github.com/blackshadow-software/grpc_video_server" }
