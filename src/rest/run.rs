@@ -12,12 +12,21 @@ pub async fn run_rest() -> Result<()> {
     let addr = server_ip_address();
     let cert = PathBuf::from("src/cert/cert.pem");
     let key = PathBuf::from("src/cert/key.pem");
-    let tls = TlsConfig::from_pem_file(cert, key).await?;
 
     println!("Listening on {}", addr);
-    axum_server::bind_rustls(addr, tls)
-        .serve(app.into_make_service())
-        .await?;
+
+    if cert.exists() && key.exists() {
+        println!("Using TLS");
+        let tls = RustlsConfig::from_pem_file(cert, key).await?;
+        axum_server::bind_rustls(addr, tls)
+            .serve(app.into_make_service())
+            .await?;
+    } else {
+        println!("TLS files not found, running without TLS");
+        axum_server::bind(addr)
+            .serve(app.into_make_service())
+            .await?;
+    }
 
     Ok(())
 }
