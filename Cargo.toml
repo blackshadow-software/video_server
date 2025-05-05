@@ -21,3 +21,4 @@ axum = "0.8"
 tracing-subscriber = "0.3"
 mime_guess = "2.0"
 grpc_video_server = { git = "https://github.com/blackshadow-software/grpc_video_server" }
+axum-server = { version = "0.7", features = ["tls-rustls"] }
